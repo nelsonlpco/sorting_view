@@ -16,6 +16,8 @@ class Controller {
   final _heapSortController = StreamController<List<int>>();
   final _mergeSortController = StreamController<List<int>>();
 
+  final _doneStreamController = StreamController<bool>();
+
   Controller() {
     randomize();
   }
@@ -24,6 +26,7 @@ class Controller {
   get bubbleSortStream => _bubbleSortController.stream;
   get heapSortStream => _heapSortController.stream;
   get mergeSortStream => _mergeSortController.stream;
+  get doneStream => _doneStreamController.stream;
 
   void randomize() {
     values = List.generate(total, (_) => rng.nextInt(1000)).toList();
@@ -31,6 +34,7 @@ class Controller {
     _bubbleSortController.sink.add(values);
     _heapSortController.sink.add(values);
     _mergeSortController.sink.add(values);
+    _doneStreamController.sink.add(true);
   }
 
   Future<void> startBubbleSort() async {
@@ -62,12 +66,15 @@ class Controller {
   }
 
   Future<void> start() async {
+    _doneStreamController.sink.add(false);
     await Future.wait([
       startMergeSort(),
       startHeapSort(),
       startBubbleSort(),
       startQuickSort(),
     ]);
+
+    _doneStreamController.sink.add(true);
   }
 
   dispose() {
@@ -75,5 +82,6 @@ class Controller {
     _bubbleSortController.sink.close();
     _heapSortController.sink.close();
     _mergeSortController.sink.close();
+    _doneStreamController.sink.close();
   }
 }

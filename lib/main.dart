@@ -45,22 +45,35 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    bool isScreenWide = MediaQuery.of(context).size.width >= 1200;
+
     return Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(18),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () async {
-                await ctr.start();
-              },
-              child: Text("Sort"),
-            ),
+            StreamBuilder<bool>(
+                stream: ctr.doneStream,
+                builder: (context, snapshot) {
+                  print(snapshot.data);
+                  var done = snapshot.data != null && snapshot.data == true;
+                  return ElevatedButton(
+                    onPressed: () async {
+                      done ? await ctr.start() : null;
+                    },
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStatePropertyAll<Color>(
+                          done ? Colors.blue : Colors.blueGrey),
+                    ),
+                    child: Text("Sort"),
+                  );
+                }),
             const SizedBox(
               height: 22,
             ),
-            Row(
+            Flex(
+              direction: isScreenWide ? Axis.horizontal : Axis.vertical,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DataViwer(
@@ -81,7 +94,8 @@ class _MyHomePageState extends State<MyHomePage> {
             const SizedBox(
               height: 22,
             ),
-            Row(
+            Flex(
+              direction: isScreenWide ? Axis.horizontal : Axis.vertical,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 DataViwer(
