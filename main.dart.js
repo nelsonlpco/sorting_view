@@ -44403,8 +44403,8 @@ return A.a_g(this.r,s.b.a_(0,r.gq(r)),B.dG)}}
 A.t7.prototype={
 N(a){return this.e.$2(a,this.f)}}
 A.Gt.prototype={
-NO(){var s,r,q=this,p=J.a_O(20,t.S)
-for(s=q.b,r=0;r<20;++r)p[r]=s.Nj(1000)
+NO(){var s,r,q=this,p=J.a_O(40,t.S)
+for(s=q.b,r=0;r<40;++r)p[r]=s.Nj(1000)
 s=A.a(p.slice(0),A.a7(p))
 q.c=s
 q.d.F(0,s)
@@ -44467,7 +44467,7 @@ return A.XU(A.a([A.Yv(s.f4(q,new A.GD(this.a,a),t.cl).d8(0),B.jK,B.cG,B.cH),B.B2
 $S:283}
 A.GD.prototype={
 $1(a){var s=null
-return A.Gr(s,s,s,B.tl,a*0.2,s,s,this.b.Z(t.w).f.a.b*0.5/20)},
+return A.Gr(s,s,s,B.tl,a*0.2,s,s,this.b.Z(t.w).f.a.b*0.5/40)},
 $S:284}
 A.aW.prototype={
 al(a){var s=a.a,r=this.a
