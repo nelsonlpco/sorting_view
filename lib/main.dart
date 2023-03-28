@@ -46,38 +46,61 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          ElevatedButton(
-            onPressed: () {
-              ctr.startBubbleSort();
-              ctr.startQuickSort();
-            },
-            child: Text("Sort"),
-          ),
-          const SizedBox(
-            height: 22,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              DataViwer(
-                ctr: ctr,
-                title: "Bubble-Sort",
-                stream: ctr.bubbleSortStream,
-              ),
-              const SizedBox(
-                width: 18,
-              ),
-              DataViwer(
-                ctr: ctr,
-                title: "Quick-Sort",
-                stream: ctr.stream,
-              ),
-            ],
-          ),
-        ],
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(18),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () async {
+                await ctr.start();
+              },
+              child: Text("Sort"),
+            ),
+            const SizedBox(
+              height: 22,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DataViwer(
+                  ctr: ctr,
+                  title: "Bubble-Sort",
+                  stream: ctr.bubbleSortStream,
+                ),
+                const SizedBox(
+                  width: 18,
+                ),
+                DataViwer(
+                  ctr: ctr,
+                  title: "Quick-Sort",
+                  stream: ctr.stream,
+                ),
+              ],
+            ),
+            const SizedBox(
+              height: 22,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DataViwer(
+                  ctr: ctr,
+                  title: "Heap-Sort",
+                  stream: ctr.heapSortStream,
+                ),
+                const SizedBox(
+                  width: 18,
+                ),
+                DataViwer(
+                  ctr: ctr,
+                  title: "Merge-Sort",
+                  stream: ctr.mergeSortStream,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
