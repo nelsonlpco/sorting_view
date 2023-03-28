@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:sort_visualizer/sort/buble_sort.dart';
+import 'package:sort_visualizer/sort/bubble_sort.dart';
 import 'package:sort_visualizer/sort/quick_sort.dart';
 
 void main() {
@@ -10,7 +10,7 @@ void main() {
     };
 
     var a = [2, 4, 5, 7, 1, 8, 9];
-    await BubleSort(a, c);
+    await bubbleSort(a, c);
 
     print(a);
     expect(count, 4);

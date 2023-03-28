@@ -2,35 +2,37 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-Future<void> quickSort(List<int> arr, start, end, VoidCallback refresh) async {
-  if (start >= end) {
-    return;
+Future<void> quickSort(
+    List<int> arr, int left, int right, VoidCallback refresh) async {
+  if (left < right) {
+    var index = await lomutoPatition(arr, left, right, refresh);
+    await quickSort(arr, left, index - 1, refresh);
+    await quickSort(arr, index + 1, right, refresh);
   }
-
-  var index = await partition(arr, start, end, refresh);
-  quickSort(arr, start, index - 1, refresh);
-  quickSort(arr, index + 1, end, refresh);
 }
 
-Future<int> partition(List<int> arr, start, end, VoidCallback refresh) async {
-  var pivotIndex = 0;
-  var pivotValue = arr[end];
+Future<int> lomutoPatition(
+    List<int> arr, int left, int right, VoidCallback refresh) async {
+  int pivot = arr[left];
+  int i = left;
 
-  for (var i = 0; i < end - 1; i++) {
-    if (arr[i] < pivotValue) {
-      await swap(i, pivotIndex, pivotValue, refresh);
-      pivotIndex++;
+  for (int j = left + 1; j <= right; j++) {
+    if (arr[j] <= pivot) {
+      i++;
+      await swap(arr, i, j, refresh);
     }
   }
 
-  await swap(arr, pivotIndex, end, refresh);
+  await swap(arr, left, i, refresh);
 
-  return pivotIndex;
+  return i;
 }
 
 Future<void> swap(arr, a, b, VoidCallback refresh) async {
-  // sleep(Duration(milliseconds: 1));
+  await Future.delayed(Duration(milliseconds: 100));
+
   var temp = arr[a];
   arr[a] = arr[b];
   arr[b] = temp;
+  refresh();
 }

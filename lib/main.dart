@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:sort_visualizer/controller.dart';
-import 'package:sort_visualizer/sort/buble_sort.dart';
+import 'package:sort_visualizer/sort/bubble_sort.dart';
 import 'package:sort_visualizer/sort/quick_sort.dart';
 
 void main() {
@@ -46,75 +46,118 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: SizedBox(
-          height: MediaQuery.of(context).size.height * 0.5,
-          child: Column(
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              ctr.startBubbleSort();
+              ctr.startQuickSort();
+            },
+            child: Text("Sort"),
+          ),
+          const SizedBox(
+            height: 22,
+          ),
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: <Widget>[
-              const Text(
-                'Bubble-Sort',
-                style: TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
+            children: [
+              DataViwer(
+                ctr: ctr,
+                title: "Bubble-Sort",
+                stream: ctr.bubbleSortStream,
               ),
               const SizedBox(
-                height: 20,
+                width: 18,
               ),
-              StreamBuilder<List<int>>(
+              DataViwer(
+                ctr: ctr,
+                title: "Quick-Sort",
                 stream: ctr.stream,
-                builder: (context, snapshot) {
-                  var values = snapshot.data;
-
-                  if (values == null) {
-                    return Text("Empty");
-                  }
-
-                  if (values != null && values.isEmpty) {
-                    return Text("Empty");
-                  }
-
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: values!
-                            .map<Widget>(
-                              (v) => Container(
-                                decoration: const BoxDecoration(
-                                  color: Colors.blue,
-                                ),
-                                height: v * 0.2,
-                                width: MediaQuery.of(context).size.height *
-                                    0.5 /
-                                    ctr.total,
-                              ),
-                            )
-                            .toList(),
-                      ),
-                      const SizedBox(
-                        height: 18,
-                      ),
-                      // Text(
-                      //   "$values",
-                      //   style: const TextStyle(
-                      //     fontSize: 18,
-                      //     fontWeight: FontWeight.bold,
-                      //   ),
-                      // ),
-                    ],
-                  );
-                },
               ),
-              ElevatedButton(
-                  onPressed: () {
-                    ctr.sort();
-                  },
-                  child: const Text("Sort"))
             ],
           ),
+        ],
+      ),
+    );
+  }
+}
+
+class DataViwer extends StatelessWidget {
+  const DataViwer({
+    Key? key,
+    required this.ctr,
+    required this.title,
+    required this.stream,
+  }) : super(key: key);
+
+  final Controller ctr;
+  final String title;
+  final Stream<List<int>> stream;
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Container(
+        padding: const EdgeInsets.all(18),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          color: Colors.blue[50],
+        ),
+        height: 320,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            StreamBuilder<List<int>>(
+              stream: stream,
+              builder: (context, snapshot) {
+                var values = snapshot.data;
+
+                if (values == null) {
+                  return Text("Empty");
+                }
+
+                if (values != null && values.isEmpty) {
+                  return Text("Empty");
+                }
+
+                return Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: values!
+                          .map<Widget>(
+                            (v) => Container(
+                              decoration: const BoxDecoration(
+                                color: Colors.blue,
+                              ),
+                              height: v * 0.2,
+                              width: MediaQuery.of(context).size.height *
+                                  0.5 /
+                                  ctr.total,
+                            ),
+                          )
+                          .toList(),
+                    ),
+                    const SizedBox(
+                      height: 18,
+                    ),
+                  ],
+                );
+              },
+            ),
+          ],
         ),
       ),
     );
